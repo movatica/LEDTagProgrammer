@@ -1,0 +1,56 @@
+<resources>
+    <!-- Resolution Preference -->
+    <string-array name="resolution_entries">
+        <item>44 x 11</item>
+        <item>48 x 12</item>
+    </string-array>
+
+    <string-array name="resolution_values">
+        <item>44x11</item>
+        <item>48x12</item>
+    </string-array>
+
+    <!-- Color Preference -->
+    <string-array name="color_entries">
+        <item>Red</item>
+        <item>Green</item>
+        <item>Blue</item>
+        <item>Orange</item>
+        <item>Pink</item>
+        <item>White</item>
+    </string-array>
+
+    <string-array name="color_values">
+        <item>RED</item>
+        <item>GREEN</item>
+        <item>BLUE</item>
+        <item>ORANGE</item>
+        <item>PINK</item>
+        <item>WHITE</item>
+    </string-array>
+
+    <!-- Animation Modes -->
+    <string-array name="mode_entries">
+        <item>Left</item>
+        <item>Right</item>
+        <item>Up</item>
+        <item>Down</item>
+        <item>Fixed</item>
+        <item>Snowflake</item>
+        <item>Picture</item>
+        <item>Animation</item>
+        <item>Laser</item>
+    </string-array>
+    
+    <string-array name="mode_values">
+        <item>LEFT</item>
+        <item>RIGHT</item>
+        <item>UP</item>
+        <item>DOWN</item>
+        <item>FIXED</item>
+        <item>SNOWFLAKE</item>
+        <item>PICTURE</item>
+        <item>ANIMATION</item>
+        <item>LASER</item>
+    </string-array>
+</resources>

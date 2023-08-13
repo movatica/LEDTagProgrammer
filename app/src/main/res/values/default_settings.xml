@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Default Boolean Values -->
+    <bool name="default_flash">false</bool>
+    <bool name="default_border">false</bool>
+
+    <!-- Default Integer Values -->
+    <integer name="default_speed">3</integer>
+    <integer name="default_brightness">3</integer>
+
+    <!-- Default String Values -->
+    <string name="default_text">Hi!</string>
+    <string name="default_mode">FIXED</string>
+    <string name="default_resolution">44x11</string>
+    <string name="default_color">GREEN</string>
+</resources>

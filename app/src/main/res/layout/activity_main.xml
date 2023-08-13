@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal|top"
+    tools:context="com.movatica.ledtagprogrammer.MainActivity">
+
+    <ImageView
+        android:id="@+id/ivPreview"
+        android:layout_width="280dp"
+        android:layout_height="84dp"
+        android:layout_marginTop="32dp"
+        android:adjustViewBounds="false"
+        android:background="#00000000"
+        android:contentDescription="@string/preview_image_description"
+        android:scaleType="fitCenter" />
+
+    <EditText
+        android:id="@+id/etContent"
+        android:layout_width="280dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:enabled="true"
+        android:hint="@string/tag_text_hint"
+        android:imeOptions="actionDone"
+        android:importantForAccessibility="no"
+        android:importantForAutofill="no"
+        android:inputType="textShortMessage"
+        android:singleLine="true"
+        android:text="@string/default_text"
+        android:textSize="20sp"
+        android:visibility="visible" />
+
+    <Spinner
+        android:id="@+id/spMode"
+        android:layout_width="280dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:id="@+id/tvSpeed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:focusable="false"
+        android:labelFor="@id/sbSpeed"
+        android:text="@string/speed_title" />
+
+    <SeekBar
+        android:id="@+id/sbSpeed"
+        style="@style/Widget.AppCompat.SeekBar.Discrete"
+        android:layout_width="280dp"
+        android:layout_height="50dp"
+        android:focusable="false"
+        android:indeterminate="false"
+        android:max="7"
+        android:progress="@integer/default_speed" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/swFlash"
+        android:layout_width="280dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:checked="@bool/default_flash"
+        android:focusable="false"
+        android:showText="false"
+        android:text="@string/flash_title" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/swBorder"
+        android:layout_width="280dp"
+        android:layout_height="50dp"
+        android:checked="@bool/default_border"
+        android:focusable="false"
+        android:showText="false"
+        android:text="@string/border_title" />
+
+    <TextView
+        android:id="@+id/tvBrightness"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:focusable="false"
+        android:labelFor="@id/sbBrightness"
+        android:text="@string/brightness_title" />
+
+    <SeekBar
+        android:id="@+id/sbBrightness"
+        style="@style/Widget.AppCompat.SeekBar.Discrete"
+        android:layout_width="280dp"
+        android:layout_height="50dp"
+        android:focusable="false"
+        android:max="3"
+        android:progress="@integer/default_brightness" />
+
+    <Button
+        android:id="@+id/btProgram"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/program_button_title" />
+
+</LinearLayout>

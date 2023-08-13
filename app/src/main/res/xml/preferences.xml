@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory app:title="@string/category_tag_title">
+        <ListPreference
+            app:key="resolution"
+            app:title="@string/resolution_title"
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="@string/default_resolution"
+            app:entries="@array/resolution_entries"
+            app:entryValues="@array/resolution_values"
+            />
+        <ListPreference
+            app:key="color"
+            app:title="@string/color_title"
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="@string/default_color"
+            app:entries="@array/color_entries"
+            app:entryValues="@array/color_values"
+            />
+    </PreferenceCategory>
+    <PreferenceCategory app:title="Preview">
+    </PreferenceCategory>
+</PreferenceScreen>

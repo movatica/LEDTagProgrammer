@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- LED badge identifier -->
+    <usb-device vendor-id="0416" product-id="5020" />
+</resources>

@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Nametag Programmer</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Interface Texts -->
+    <string name="brightness_title">Brightness</string>
+    <string name="flash_title">Blink Effect</string>
+    <string name="border_title">Animated Border</string>
+    <string name="program_button_title">Program Display</string>
+    <string name="preview_image_description">Preview image</string>
+
+    <!-- Tag Preferences -->
+    <string name="resolution_title">Resolution</string>
+    <string name="color_title">Color</string>
+    <string name="speed_title">Animation Speed:</string>
+    <string name="category_tag_title">Tag Configuration</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tag_text_hint">Tag content</string>
+</resources>
