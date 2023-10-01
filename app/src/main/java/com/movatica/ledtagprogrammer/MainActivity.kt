@@ -95,9 +95,17 @@ class MainActivity : AppCompatActivity() {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
 
-        B.swFlash.setOnCheckedChangeListener { _, isChecked -> animationConfig.flash = isChecked }
+        B.swFlash.setOnCheckedChangeListener { _, isChecked -> animationConfig.flash = isChecked; updatePreview() }
 
-        B.swBorder.setOnCheckedChangeListener { _, isChecked -> animationConfig.border = isChecked }
+        B.swBorder.setOnCheckedChangeListener { _, isChecked -> animationConfig.border = isChecked; updatePreview() }
+
+        B.sbBrightness.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                updatePreview()
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
 
         B.btProgram.setOnClickListener {
             updatePreview()
@@ -209,15 +217,7 @@ class MainActivity : AppCompatActivity() {
         // compile bytecode
         // TODO: extract this into a class
         // TODO: allow the actual 8 different messages
-/*
-        val payload = compileBytecode(
-            B.etContent.text.toString(),
-            B.sbAnimationSpeed.progress,
-            0,
-            B.swBlinkEffect.isChecked,
-            B.swBorderEffect.isChecked,
-            B.sbBrightness.progress
-        )
+        val payload = compileBytecode(animationConfig, B.sbBrightness.progress)
 
         // trying to program more than 8kb will damage the device
         if (payload.size > 8192)
@@ -261,7 +261,7 @@ class MainActivity : AppCompatActivity() {
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
         val tagConfig = TagConfig(preferences)
 
-        val frames = renderAnimation(tagConfig,4, animationConfig)
+        val frames = renderAnimation(tagConfig, B.sbBrightness.progress, animationConfig)
 
         B.ivPreview.setOnClickListener(null)
 
