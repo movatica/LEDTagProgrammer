@@ -102,6 +102,13 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:enabled="false"
         android:text="@string/program_button_title" />
+
+    <TextView
+        android:id="@+id/tvDevice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/no_device_connected" />
 
 </LinearLayout>

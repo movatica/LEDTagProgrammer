@@ -1,10 +1,15 @@
 package com.movatica.ledtagprogrammer
 
+import android.content.BroadcastReceiver
 import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Bitmap
 import android.graphics.drawable.AnimationDrawable
 import android.graphics.drawable.BitmapDrawable
+import android.hardware.usb.UsbDevice
+import android.hardware.usb.UsbManager
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.Menu
@@ -27,20 +32,17 @@ class MainActivity : AppCompatActivity() {
     private var previewFileType: String = ""
 
     private var animationConfig = AnimationConfig()
-/*
+
     // get device handle and permission on plugging in
     private lateinit var usbManager: UsbManager
     private var usbDevice: UsbDevice? = null
 
     private val usbActionReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            if (intent.action == UsbManager.ACTION_USB_DEVICE_DETACHED)
-            {
-                handleIntent(intent)
-            }
+            handleIntent(intent)
         }
     }
-*/
+
     // TODO: handle app launch when no device is attached
     // -> disable program button
     // -> enable, when device is detected later
@@ -103,10 +105,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         // setup USB device handling
- /*       usbManager = getSystemService(USB_SERVICE) as UsbManager
-        val usbActionFilter = IntentFilter().apply { addAction(UsbManager.ACTION_USB_DEVICE_DETACHED) }
+        usbManager = getSystemService(USB_SERVICE) as UsbManager
+        val usbActionFilter = IntentFilter().apply {
+            addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED)
+            addAction(UsbManager.ACTION_USB_DEVICE_DETACHED)
+        }
         registerReceiver(usbActionReceiver, usbActionFilter)
-*/
+
         handleIntent(intent)
 
         updatePreview()
@@ -119,8 +124,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-/*        unregisterReceiver(usbActionReceiver)
-*/
+        unregisterReceiver(usbActionReceiver)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -169,12 +173,34 @@ class MainActivity : AppCompatActivity() {
         Snackbar.make(B.root, message, Snackbar.LENGTH_SHORT).show()
     }
 
+    @Suppress("DEPRECATION") // getParcelableExtra(String)
     private fun handleIntent(intent: Intent) {
-        // handle usb device attach/detach intents
-        /*
-        @Suppress("DEPRECATION")
-        usbDevice = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE)
-         */
+        if (intent.action == UsbManager.ACTION_USB_DEVICE_ATTACHED) {
+            usbDevice = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE)
+        }
+        else if (intent.action == UsbManager.ACTION_USB_DEVICE_DETACHED) {
+            if (usbDevice == intent.getParcelableExtra(UsbManager.EXTRA_DEVICE)) {
+                usbDevice = null
+            }
+        }
+        else {
+            for ((_, device) in usbManager.deviceList) {
+                if (device.vendorId == 0x0416 && device.productId == 0x5020) {
+                    usbDevice = device
+                    break
+                }
+            }
+        }
+
+        if (usbDevice == null) {
+            B.tvDevice.text = getString(R.string.no_device_connected)
+            B.btProgram.isEnabled = false
+        }
+        else {
+            B.tvDevice.text =
+                getString(R.string.connected_to, usbDevice?.productName, usbDevice?.deviceName)
+            B.btProgram.isEnabled = true
+        }
     }
 
     private fun programDevice() {

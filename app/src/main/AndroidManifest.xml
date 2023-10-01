@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-feature android:name="android.hardware.usb.host" />
+    <uses-permission android:name="android.permission.USB_PERMISSION" />
 
     <application
         android:allowBackup="true"
@@ -17,6 +18,7 @@
 
         <activity
             android:name="com.movatica.ledtagprogrammer.MainActivity"
+            android:launchMode="singleInstance"
             android:exported="true">
 
             <intent-filter>
