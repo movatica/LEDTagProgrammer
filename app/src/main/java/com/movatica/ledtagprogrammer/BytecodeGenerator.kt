@@ -1,5 +1,6 @@
 package com.movatica.ledtagprogrammer
 
+import com.movatica.ledtagprogrammer.extensions.padTo
 import java.time.LocalDateTime
 
 class BytecodeGenerator {
@@ -13,7 +14,7 @@ fun compileBytecode(text: String, speed: Int, mode: Int, blink: Boolean, border:
     payload += compileText(text)
 
     // add padding to 64 byte blocks
-    payload += ByteArray(64 - payload.size % 64)
+    payload = payload.padTo(64)
 
     return payload
 }
@@ -28,7 +29,19 @@ private fun compileText(text: String) : ByteArray {
     return textBytes
 }
 
-private fun compileHeaderBytes(length: Int, speed: Int, mode: Int, blink: Boolean, border: Boolean, brightness: Int) : ByteArray {
+private fun currentDateToBytes() : ByteArray {
+    val currentDT = LocalDateTime.now()
+
+    return byteArrayOf(
+        (currentDT.year % 100).toByte(),
+        currentDT.monthValue.toByte(),
+        currentDT.dayOfMonth.toByte(),
+        currentDT.hour.toByte(),
+        currentDT.minute.toByte(),
+        currentDT.second.toByte())
+}
+
+private fun compileHeaderBytes(animationConfig: AnimationConfig, brightness: Int) : ByteArray {
     // TODO: for now, we only support one message, so everything is set 8 times
     val length = length.coerceIn(1,8192)
     val speed = speed.coerceIn(0,8)
@@ -65,14 +78,7 @@ private fun compileHeaderBytes(length: Int, speed: Int, mode: Int, blink: Boolea
         header[17+2*i] = (length % 256).toByte()
     }
 
-    // current date
-    val currentDT = LocalDateTime.now()
-    header[38] = (currentDT.year % 100).toByte()
-    header[39] = currentDT.monthValue.toByte()
-    header[40] = currentDT.dayOfMonth.toByte()
-    header[41] = currentDT.hour.toByte()
-    header[42] = currentDT.minute.toByte()
-    header[43] = currentDT.second.toByte()
+    currentDateToBytes().copyInto(header, 38)
 
     return header
 }
