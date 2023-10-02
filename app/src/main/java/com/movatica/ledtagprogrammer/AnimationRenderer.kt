@@ -12,7 +12,7 @@ fun renderAnimation(tagConfig: TagConfig, brightness: Int = 3, animationConfig: 
     }
 
     val textPoints = pointsFromText(animationConfig.text)
-    val textWidth = textPoints.maxBy { p -> p.x }.x
+    val textWidth = textPoints.maxByOrNull { p -> p.x }?.x ?: 0
 
     val noLEDs = makeMatrix(tagConfig)
 
