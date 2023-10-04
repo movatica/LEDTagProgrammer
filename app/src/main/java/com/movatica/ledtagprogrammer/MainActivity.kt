@@ -8,6 +8,7 @@ import android.content.IntentFilter
 import android.graphics.Bitmap
 import android.graphics.drawable.AnimationDrawable
 import android.graphics.drawable.BitmapDrawable
+import android.hardware.usb.UsbConstants
 import android.hardware.usb.UsbDevice
 import android.hardware.usb.UsbManager
 import android.os.Bundle
@@ -212,8 +213,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun programDevice() {
-        // program device
-
         // compile bytecode
         // TODO: extract this into a class
         // TODO: allow the actual 8 different messages
@@ -231,6 +230,9 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
+        var transferredBytes = 0
+
+        // TODO: more fine grained error handling
         usbDevice?.getInterface(0)?.also { intf ->
             for (e in 0 until intf.endpointCount) {
                 val endpoint = intf.getEndpoint(e) ?: continue
@@ -238,23 +240,19 @@ class MainActivity : AppCompatActivity() {
                 if (endpoint.direction == UsbConstants.USB_DIR_OUT) {
                     usbManager.openDevice(usbDevice)?.apply {
                         claimInterface(intf, true)
-                        bulkTransfer(endpoint, payload, payload.size, 0) //do in another thread
+                        transferredBytes = bulkTransfer(endpoint, payload, payload.size, 0) //do in another thread
                     }
                     break
                 }
             }
         }
-*/
-        //val result = programDevice(payload)
 
-        //if (!result) {
-        //    showErrorMessage("Programming not successful")
-        //    return
-        //}
-
-        // TODO: check if device is available
-        // TODO: do USB device detection and handling somewhere else
-        // TODO: program device
+        if (transferredBytes == payload.size) {
+            showErrorMessage("Programming successful")
+        }
+        else {
+            showErrorMessage("Programming failed")
+        }
     }
 
     private fun updatePreview() {

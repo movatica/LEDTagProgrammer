@@ -4,14 +4,16 @@ import com.movatica.ledtagprogrammer.extensions.padTo
 import java.time.LocalDateTime
 
 class BytecodeGenerator {
+    // TODO: implement a class for this
 }
 
-fun compileBytecode(text: String, speed: Int, mode: Int, blink: Boolean, border: Boolean, brightness: Int) : ByteArray {
+fun compileBytecode(animationConfig: AnimationConfig, brightness: Int) : ByteArray {
+    // TODO: support all 8 slots
     // begin with header
-    var payload = compileHeaderBytes(text.length, speed, mode, blink, border, brightness)
+    var payload = compileHeaderBytes(animationConfig, brightness)
 
     // render pixelated string
-    payload += compileText(text)
+    payload += compileText(animationConfig.text)
 
     // add padding to 64 byte blocks
     payload = payload.padTo(64)
@@ -20,6 +22,7 @@ fun compileBytecode(text: String, speed: Int, mode: Int, blink: Boolean, border:
 }
 
 private fun compileText(text: String) : ByteArray {
+    // TODO: support 48x12 displays
     var textBytes : ByteArray = byteArrayOf()
 
     for (char in text) {
@@ -42,9 +45,10 @@ private fun currentDateToBytes() : ByteArray {
 }
 
 private fun compileHeaderBytes(animationConfig: AnimationConfig, brightness: Int) : ByteArray {
-    // TODO: for now, we only support one message, so everything is set 8 times
-    val length = length.coerceIn(1,8192)
-    val speed = speed.coerceIn(0,8)
+    // TODO: support all 8 slots
+    val length = animationConfig.text.length.coerceIn(1,8192)
+    val speed = animationConfig.speed.coerceIn(0,8)
+    val mode = animationConfig.mode.toInt()
     val brightness = brightness.coerceIn(0,3)
 
     val header = byteArrayOf(
@@ -65,20 +69,23 @@ private fun compileHeaderBytes(animationConfig: AnimationConfig, brightness: Int
     }
 
     // blink effect
-    header[6] = (if (blink) 0xFF else 0x00).toByte()
+    header[6] = (if (animationConfig.flash) 0xFF else 0x00).toByte()
 
     // border effect
-    header[7] = (if (border) 0xFF else 0x00).toByte()
+    header[7] = (if (animationConfig.border) 0xFF else 0x00).toByte()
 
-    for (i in 0..7) {
+    for (i in 1..7) {
         // speed and mode
         header[8+i] = (16*speed + mode).toByte()
         // length
-        header[17+2*i-1] = (length / 256).toByte()
-        header[17+2*i] = (length % 256).toByte()
+        //header[17+2*i-1] = (length / 256).toByte()
+        //header[17+2*i] = (length % 256).toByte()
     }
+    // length
+    header[18] = (length / 256).toByte()
+    header[19] = (length % 256).toByte()
 
-    currentDateToBytes().copyInto(header, 38)
+    currentDateToBytes().copyInto(header, 38, 0, 5)
 
     return header
 }
